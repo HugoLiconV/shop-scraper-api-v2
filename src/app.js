@@ -5,9 +5,7 @@ import express from './services/express'
 import api from './api'
 import './services/cron'
 
-console.log('TCL: apiRoot', apiRoot)
-console.log(typeof apiRoot)
-const app = express('/v1.1', api)
+const app = express(apiRoot, api)
 const server = http.createServer(app)
 
 mongoose.connect(mongo.uri)
