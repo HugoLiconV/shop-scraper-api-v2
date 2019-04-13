@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-const stores = ['DD Tech', 'CyberPuerta']
+const stores = ['DD Tech', 'Cyber Puerta']
 
 const productSchema = new Schema(
   {
@@ -13,8 +13,7 @@ const productSchema = new Schema(
       unique: true
     },
     imageUrl: {
-      type: String,
-      required: true
+      type: String
     },
     price: {
       type: Number,

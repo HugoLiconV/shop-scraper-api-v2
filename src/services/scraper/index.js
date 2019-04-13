@@ -80,7 +80,8 @@ export function scrapPriceCyberPuerta (html) {
     .first()
     .text()
     .trim()
-  return currencyToNumber(price)
+  const img = $('a[class=emzoompics] > img').attr('src')
+  return { img, price: currencyToNumber(price) }
 }
 
 export function scrapPriceDDTech (html) {
