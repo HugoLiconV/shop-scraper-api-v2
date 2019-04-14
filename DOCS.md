@@ -6,10 +6,33 @@
 	- [Authenticate](#authenticate)
 	- [Authenticate with Google](#authenticate-with-google)
 	
+- [Cron](#cron)
+	- [Run cron to scrap products](#run-cron-to-scrap-products)
+	
+- [Log](#log)
+	- [Retrieve logs](#retrieve-logs)
+	
 - [PasswordReset](#passwordreset)
 	- [Send email](#send-email)
 	- [Submit password](#submit-password)
 	- [Verify token](#verify-token)
+	
+- [Product](#product)
+	- [Create product](#create-product)
+	- [Delete product](#delete-product)
+	- [Retrieve product](#retrieve-product)
+	- [Retrieve products](#retrieve-products)
+	- [Update product](#update-product)
+	
+- [Search](#search)
+	- [Search for products](#search-for-products)
+	
+- [TrackedProduct](#trackedproduct)
+	- [Create tracked product](#create-tracked-product)
+	- [Delete tracked product](#delete-tracked-product)
+	- [Retrieve tracked product](#retrieve-tracked-product)
+	- [Retrieve tracked products](#retrieve-tracked-products)
+	- [Update tracked product](#update-tracked-product)
 	
 - [User](#user)
 	- [Create user](#create-user)
@@ -55,6 +78,34 @@
 |---------|-----------|--------------------------------------|
 | access_token			| String			|  <p>Google user accessToken.</p>							|
 
+# Cron
+
+## Run cron to scrap products
+
+
+
+	GET /cron
+
+
+# Log
+
+## Retrieve logs
+
+
+
+	GET /logs
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
 # PasswordReset
 
 ## Send email
@@ -90,6 +141,169 @@
 
 	GET /password-resets/:token
 
+
+# Product
+
+## Create product
+
+
+
+	POST /products
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| title			| 			|  <p>Product's title.</p>							|
+| link			| 			|  <p>Product's link.</p>							|
+| imageUrl			| 			|  <p>Product's imageUrl.</p>							|
+| price			| 			|  <p>Product's price.</p>							|
+| store			| 			|  <p>Product's store.</p>							|
+
+## Delete product
+
+
+
+	DELETE /products/:id
+
+
+## Retrieve product
+
+
+
+	GET /products/:id
+
+
+## Retrieve products
+
+
+
+	GET /products
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update product
+
+
+
+	PUT /products/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| title			| 			|  <p>Product's title.</p>							|
+| link			| 			|  <p>Product's link.</p>							|
+| imageUrl			| 			|  <p>Product's imageUrl.</p>							|
+| price			| 			|  <p>Product's price.</p>							|
+| store			| 			|  <p>Product's store.</p>							|
+
+# Search
+
+## Search for products
+
+
+
+	GET /search
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| term			| String			| **optional** <p>Term to search.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+# TrackedProduct
+
+## Create tracked product
+
+
+
+	POST /tracked-products
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| product			| Object			|  <p>Product to track.</p>							|
+| desiredPrice			| Number			|  <p>Tracked product's desiredPrice.</p>							|
+| notify			| Boolean			|  <p>Should notify user when the price drops.</p>							|
+
+## Delete tracked product
+
+
+
+	DELETE /tracked-products/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Retrieve tracked product
+
+
+
+	GET /tracked-products/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+
+## Retrieve tracked products
+
+
+
+	GET /tracked-products
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| q			| String			| **optional** <p>Query to search.</p>							|
+| page			| Number			| **optional** <p>Page number.</p>							|
+| limit			| Number			| **optional** <p>Amount of returned items.</p>							|
+| sort			| String[]			| **optional** <p>Order of returned items.</p>							|
+| fields			| String[]			| **optional** <p>Fields to be returned.</p>							|
+
+## Update tracked product
+
+
+
+	PUT /tracked-products/:id
+
+
+### Parameters
+
+| Name    | Type      | Description                          |
+|---------|-----------|--------------------------------------|
+| access_token			| String			|  <p>user access token.</p>							|
+| desiredPrice			| Number			|  <p>Tracked product's desiredPrice.</p>							|
 
 # User
 

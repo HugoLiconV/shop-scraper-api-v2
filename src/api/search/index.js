@@ -4,15 +4,14 @@ import { index } from './controller'
 const router = new Router()
 
 /**
- * @api {get} /users Retrieve users
- * @apiName RetrieveUsers
- * @apiGroup User
- * @apiPermission admin
- * @apiParam {String} access_token User access_token.
+ * @api {get} /search Search for products
+ * @apiName SearchProducts
+ * @apiGroup Search
  * @apiUse listParams
- * @apiSuccess {Object[]} users List of users.
+ * @apiParam {String} [term] Term to search.
+ * @apiSuccess {String} itemsFound Total amount of products.
+ * @apiSuccess {Object[]} data List of products.
  * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 401 Admin access only.
  */
 router.get('/', query(), index)
 

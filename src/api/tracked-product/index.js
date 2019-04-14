@@ -7,7 +7,7 @@ import { schema } from './model'
 export TrackedProduct, { schema } from './model'
 
 const router = new Router()
-const { product, desiredPrice } = schema.tree
+const { desiredPrice } = schema.tree
 
 /**
  * @api {post} /tracked-products Create tracked product
@@ -15,16 +15,11 @@ const { product, desiredPrice } = schema.tree
  * @apiGroup TrackedProduct
  * @apiPermission user
  * @apiParam {String} access_token user access token.
- * @apiParam title Tracked product's title.
- * @apiParam link Tracked product's link.
- * @apiParam imageUrl Tracked product's imageUrl.
- * @apiParam price Tracked product's price.
- * @apiParam store Tracked product's store.
- * @apiParam desiredPrice Tracked product's desiredPrice.
- * @apiParam notify Tracked product's notify.
+ * @apiParam {Object} product Product to track.
+ * @apiParam {Number} desiredPrice Tracked product's desiredPrice.
+ * @apiParam {Boolean} notify=true Should notify user when the price drops.
  * @apiSuccess {Object} trackedProduct Tracked product's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
- * @apiError 404 Tracked product not found.
  * @apiError 401 user access only.
  */
 router.post('/', token({ required: true }), body({ product: [Object], desiredPrice }), create)
@@ -62,13 +57,7 @@ router.get('/:id', token({ required: true }), show)
  * @apiGroup TrackedProduct
  * @apiPermission user
  * @apiParam {String} access_token user access token.
- * @apiParam title Tracked product's title.
- * @apiParam link Tracked product's link.
- * @apiParam imageUrl Tracked product's imageUrl.
- * @apiParam price Tracked product's price.
- * @apiParam store Tracked product's store.
- * @apiParam desiredPrice Tracked product's desiredPrice.
- * @apiParam notify Tracked product's notify.
+ * @apiParam {Number} desiredPrice Tracked product's desiredPrice.
  * @apiSuccess {Object} trackedProduct Tracked product's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 Tracked product not found.
