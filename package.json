@@ -10,6 +10,7 @@
     "postcoverage": "opn coverage/lcov-report/index.html",
     "dev": "nodemon -i \"*.test.js\" .",
     "debug": "nodemon --inspect .",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
     "prod": "cross-env NODE_ENV=production nodemon -i \"*.test.js\" -r dotenv-safe/config .",
     "lint": "eslint src",
     "docs": "apidoc -i src -o docs && apidoc-markdown -p docs -o DOCS.md",
@@ -18,6 +19,12 @@
   "jest": {
     "testEnvironment": "node",
     "setupTestFrameworkScriptFile": "<rootDir>/test/setup.js"
+  },
+  "majestic": {
+    "jestScriptPath": "./node_modules/jest-cli/bin/jest.js",
+    "args": [
+      "--debug"
+    ]
   },
   "devDependencies": {
     "apidoc": "^0.17.6",
