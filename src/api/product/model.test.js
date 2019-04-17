@@ -3,7 +3,13 @@ import { Product } from '.'
 let product
 
 beforeEach(async () => {
-  product = await Product.create({ title: 'test', link: 'test', imageUrl: 'test', price: 'test', store: 'test' })
+  product = await Product.create({
+    title: 'test',
+    link: 'test',
+    imageUrl: 'test',
+    price: 100,
+    store: 'DD Tech'
+  })
 })
 
 describe('view', () => {

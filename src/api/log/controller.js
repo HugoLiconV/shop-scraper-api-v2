@@ -6,7 +6,7 @@ export const create = log => Log.create(log).then(log => log.view(true))
 export const index = ({ querymen: { query, select, cursor } }, res, next) =>
   Log.count(query)
     .then(count =>
-      Log.find(query, select, { ...cursor, limit: 0 }).then(logs => ({
+      Log.find(query, select, { ...cursor, limit: 168 }).then(logs => ({
         count,
         rows: logs.map(log => log.view())
       }))

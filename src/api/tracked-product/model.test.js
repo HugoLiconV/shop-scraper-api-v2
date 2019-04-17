@@ -1,11 +1,19 @@
 import { TrackedProduct } from '.'
 import { User } from '../user'
+import { Product } from '../product'
 
-let user, trackedProduct
+let user, trackedProduct, product
 
 beforeEach(async () => {
+  product = await Product.create({
+    title: 'test',
+    link: 'test',
+    imageUrl: 'test',
+    price: 100,
+    store: 'DD Tech'
+  })
   user = await User.create({ email: 'a@a.com', password: '123456' })
-  trackedProduct = await TrackedProduct.create({ user, title: 'test', link: 'test', imageUrl: 'test', price: 'test', store: 'test', desiredPrice: 'test', notify: 'test' })
+  trackedProduct = await TrackedProduct.create({ user, product, desiredPrice: 90, notify: true })
 })
 
 describe('view', () => {
@@ -13,13 +21,7 @@ describe('view', () => {
     const view = trackedProduct.view()
     expect(typeof view).toBe('object')
     expect(view.id).toBe(trackedProduct.id)
-    expect(typeof view.user).toBe('object')
-    expect(view.user.id).toBe(user.id)
-    expect(view.title).toBe(trackedProduct.title)
-    expect(view.link).toBe(trackedProduct.link)
-    expect(view.imageUrl).toBe(trackedProduct.imageUrl)
-    expect(view.price).toBe(trackedProduct.price)
-    expect(view.store).toBe(trackedProduct.store)
+    expect(view.product.id).toBe(product.id)
     expect(view.desiredPrice).toBe(trackedProduct.desiredPrice)
     expect(view.notify).toBe(trackedProduct.notify)
     expect(view.createdAt).toBeTruthy()
@@ -32,11 +34,7 @@ describe('view', () => {
     expect(view.id).toBe(trackedProduct.id)
     expect(typeof view.user).toBe('object')
     expect(view.user.id).toBe(user.id)
-    expect(view.title).toBe(trackedProduct.title)
-    expect(view.link).toBe(trackedProduct.link)
-    expect(view.imageUrl).toBe(trackedProduct.imageUrl)
-    expect(view.price).toBe(trackedProduct.price)
-    expect(view.store).toBe(trackedProduct.store)
+    expect(view.product.id).toBe(product.id)
     expect(view.desiredPrice).toBe(trackedProduct.desiredPrice)
     expect(view.notify).toBe(trackedProduct.notify)
     expect(view.createdAt).toBeTruthy()

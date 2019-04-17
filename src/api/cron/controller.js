@@ -1,6 +1,6 @@
 import { scrapProducts } from '../../services/cron'
 
-export async function runCron (req, res) {
+export const runCron = async (req, res) => {
   await scrapProducts()
   res.send({ message: 'runnging Cron' })
 }
