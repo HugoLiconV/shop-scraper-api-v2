@@ -74,6 +74,47 @@ export function findItemInfoCyberPuerta (html) {
   return result
 }
 
+export function findItemInfoAmazon (html) {
+  const $ = cheerio.load(html)
+  const selector = '[data-index]'
+  const result = []
+
+  $(selector).each(function (i, item) {
+    const title = $(this)
+      .find('h5 a.a-link-normal.a-text-normal span')
+      .text()
+      .trim()
+
+    const link = $(this)
+      .find('h5 a.a-link-normal.a-text-normal')
+      .attr('href')
+
+    const price = $(this)
+      .find('span[data-a-color="base"] span.a-offscreen')
+      .text()
+      .trim()
+
+    const imageUrl = $(this)
+      .find('[data-image-index]')
+      .attr('src')
+
+    result[i] = {
+      title,
+      imageUrl,
+      link: `https://www.amazon.com.mx${link}`,
+      price: currencyToNumber(price),
+      store: 'Amazon'
+    }
+  })
+
+  return result
+}
+
+function addAffiliateLink (url) {
+  const affiliateInfo = '&_encoding=UTF8&tag=shopscraper-20&linkCode=ur2&camp=1789&creative=9325'
+  return `${url}${affiliateInfo}`
+}
+
 export function scrapPriceCyberPuerta (html) {
   const $ = cheerio.load(html)
   const price = $('span[class=priceText]')
@@ -82,6 +123,18 @@ export function scrapPriceCyberPuerta (html) {
     .trim()
   const img = $('a[class=emzoompics] > img').attr('src')
   return { img, price: currencyToNumber(price) }
+}
+
+export function scrapPriceAmazon (html) {
+  console.log('TCL: scrapPriceAmazon -> html', html)
+  const $ = cheerio.load(html)
+  const price = $('#priceblock_ourprice')
+    .first()
+    .text()
+    .trim()
+
+  console.log('TCL: scrapPriceAmazon -> price', price)
+  return currencyToNumber(price)
 }
 
 export function scrapPriceDDTech (html) {

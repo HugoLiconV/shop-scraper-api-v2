@@ -1,7 +1,7 @@
 import cron from 'node-cron'
 import chalk from 'chalk'
 import { TrackedProduct } from '../../api/tracked-product'
-import { getHTML, scrapPriceCyberPuerta, scrapPriceDDTech } from '../scraper'
+import { getHTML, scrapPriceCyberPuerta, scrapPriceDDTech, scrapPriceAmazon } from '../scraper'
 import { sendMail } from '../sendgrid'
 import { create as createLog } from '../../api/log/controller'
 import { update as updateProduct } from '../../api/product/controller'
@@ -19,7 +19,11 @@ export async function scrapProducts () {
     const html = await getHTML(product.link)
     const oldPrice = product.price
     const newPrice =
-      product.store === 'Cyber Puerta' ? scrapPriceCyberPuerta(html).price : scrapPriceDDTech(html)
+      product.store === 'Cyber Puerta'
+        ? scrapPriceCyberPuerta(html).price
+        : product.store === 'Amazon'
+          ? scrapPriceAmazon(html)
+          : scrapPriceDDTech(html)
     const color =
       newPrice * 100 < desiredPrice * 100
         ? chalk.green
@@ -43,15 +47,15 @@ export async function scrapProducts () {
         </p>
       `
       shouldNotify = false
-      try {
-        await sendMail({
-          toEmail: email,
-          subject: `Alerta de precio ${product.title}`,
-          content
-        })
-      } catch (error) {
-        console.log(`Error sending email ${error}`)
-      }
+      // try {
+      //   await sendMail({
+      //     toEmail: email,
+      //     subject: `Alerta de precio ${product.title}`,
+      //     content
+      //   })
+      // } catch (error) {
+      //   console.log(`Error sending email ${error}`)
+      // }
     } else {
       shouldNotify = true
     }
