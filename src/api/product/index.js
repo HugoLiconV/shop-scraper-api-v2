@@ -7,7 +7,7 @@ import { token } from '../../services/passport'
 export Product, { schema } from './model'
 
 const router = new Router()
-const { title, link, imageUrl, price, store } = schema.tree
+const { title, link, image, price, store } = schema.tree
 
 /**
  * @api {post} /products Create product
@@ -15,7 +15,7 @@ const { title, link, imageUrl, price, store } = schema.tree
  * @apiGroup Product
  * @apiParam title Product's title.
  * @apiParam link Product's link.
- * @apiParam imageUrl Product's imageUrl.
+ * @apiParam image Product's image.
  * @apiParam price Product's price.
  * @apiParam store Product's store.
  * @apiSuccess {Object} product Product's data.
@@ -26,7 +26,7 @@ const { title, link, imageUrl, price, store } = schema.tree
 router.post(
   '/',
   token({ required: true, roles: ['admin'] }),
-  body({ title, link, imageUrl, price, store }),
+  body({ title, link, image, price, store }),
   create
 )
 
@@ -58,7 +58,7 @@ router.get('/:id', token({ required: true, roles: ['admin'] }), show)
  * @apiGroup Product
  * @apiParam title Product's title.
  * @apiParam link Product's link.
- * @apiParam imageUrl Product's imageUrl.
+ * @apiParam image Product's image.
  * @apiParam price Product's price.
  * @apiParam store Product's store.
  * @apiSuccess {Object} product Product's data.
@@ -69,7 +69,7 @@ router.get('/:id', token({ required: true, roles: ['admin'] }), show)
 router.put(
   '/:id',
   token({ required: true, roles: ['admin'] }),
-  body({ title, link, imageUrl, price, store }),
+  body({ title, link, image, price, store }),
   update
 )
 

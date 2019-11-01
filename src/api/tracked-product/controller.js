@@ -5,13 +5,14 @@ import { Product } from '../product'
 export const create = ({ user, bodymen: { body } }, res, next) => {
   const product = body.product
   const desiredPrice = body.desiredPrice
+  const initialPrice = body.product.price
   const options = { upsert: true, new: true }
   /* Find a product or create it if doesn't exists */
   return Product.findOneAndUpdate({ link: product.link }, product, options)
     .then(product =>
       TrackedProduct.findOneAndUpdate(
         { product: product.id, user: user.id },
-        { product, desiredPrice, user },
+        { product, desiredPrice, user, initialPrice, notify: true, wasBought: false },
         options
       )
         .populate('product')
@@ -52,6 +53,11 @@ export const update = ({ user, bodymen: { body }, params }, res, next) =>
     .then(trackedProduct => (trackedProduct ? trackedProduct.view(true) : null))
     .then(success(res))
     .catch(next)
+
+export const localUpdate = (trackedProduct, id) =>
+  TrackedProduct.findById(id)
+    .then(product => (product ? Object.assign(product, trackedProduct).save() : null))
+    .then(product => (product ? product.view(true) : null))
 
 export const destroy = ({ user, params }, res, next) =>
   TrackedProduct.findById(params.id)

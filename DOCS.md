@@ -157,7 +157,7 @@
 |---------|-----------|--------------------------------------|
 | title			| 			|  <p>Product's title.</p>							|
 | link			| 			|  <p>Product's link.</p>							|
-| imageUrl			| 			|  <p>Product's imageUrl.</p>							|
+| image			| 			|  <p>Product's image.</p>							|
 | price			| 			|  <p>Product's price.</p>							|
 | store			| 			|  <p>Product's store.</p>							|
 
@@ -205,7 +205,7 @@
 |---------|-----------|--------------------------------------|
 | title			| 			|  <p>Product's title.</p>							|
 | link			| 			|  <p>Product's link.</p>							|
-| imageUrl			| 			|  <p>Product's imageUrl.</p>							|
+| image			| 			|  <p>Product's image.</p>							|
 | price			| 			|  <p>Product's price.</p>							|
 | store			| 			|  <p>Product's store.</p>							|
 

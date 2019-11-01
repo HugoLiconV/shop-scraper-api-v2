@@ -7,7 +7,7 @@ import { schema } from './model'
 export TrackedProduct, { schema } from './model'
 
 const router = new Router()
-const { desiredPrice } = schema.tree
+const { desiredPrice, initialPrice, wasBought, notify } = schema.tree;
 
 /**
  * @api {post} /tracked-products Create tracked product
@@ -63,7 +63,7 @@ router.get('/:id', token({ required: true }), show)
  * @apiError 404 Tracked product not found.
  * @apiError 401 user access only.
  */
-router.put('/:id', token({ required: true }), body({ desiredPrice }), update)
+router.put('/:id', token({ required: true }), body({ desiredPrice, initialPrice, wasBought, notify }), update)
 
 /**
  * @api {delete} /tracked-products/:id Delete tracked product

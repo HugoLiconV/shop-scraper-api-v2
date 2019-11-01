@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-const stores = ['DD Tech', 'Cyber Puerta', 'Amazon']
+const stores = ['costco', 'sears', 'amazon', 'bestbuy', 'liverpool', 'coppel']
 
 const productSchema = new Schema(
   {
@@ -12,7 +12,7 @@ const productSchema = new Schema(
       required: true,
       unique: true
     },
-    imageUrl: {
+    image: {
       type: String
     },
     price: {
@@ -43,7 +43,7 @@ productSchema.methods = {
       id: this.id,
       title: this.title,
       link: this.link,
-      imageUrl: this.imageUrl,
+      image: this.image,
       price: this.price,
       store: this.store,
       createdAt: this.createdAt,

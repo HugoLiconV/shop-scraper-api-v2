@@ -8,7 +8,7 @@ beforeEach(async () => {
   product = await Product.create({
     title: 'test',
     link: 'test',
-    imageUrl: 'test',
+    image: 'test',
     price: 100,
     store: 'DD Tech'
   })

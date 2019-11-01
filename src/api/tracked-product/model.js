@@ -4,13 +4,25 @@ const trackedProductSchema = new Schema(
   {
     user: {
       type: Schema.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true
     },
     product: {
       type: Schema.ObjectId,
-      ref: 'Product',
+      ref: "Product",
       required: true
+    },
+    initialPrice: {
+      type: Number,
+      required: true
+    },
+    wasBought: {
+      type: Boolean,
+      required: true,
+      default: 'false'
+    },
+    boughtAt: {
+      type: Number
     },
     desiredPrice: {
       type: Number,
@@ -18,7 +30,7 @@ const trackedProductSchema = new Schema(
     },
     notify: {
       type: Boolean,
-      default: true
+      default: 'true'
     }
   },
   {
@@ -26,11 +38,11 @@ const trackedProductSchema = new Schema(
     toJSON: {
       virtuals: true,
       transform: (obj, ret) => {
-        delete ret._id
+        delete ret._id;
       }
     }
   }
-)
+);
 
 trackedProductSchema.methods = {
   view (full) {
@@ -41,7 +53,10 @@ trackedProductSchema.methods = {
       desiredPrice: this.desiredPrice,
       notify: this.notify,
       createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      updatedAt: this.updatedAt,
+      initialPrice: this.initialPrice,
+      wasBought: this.wasBought,
+      boughtAt: this.boughtAt
     }
 
     return full

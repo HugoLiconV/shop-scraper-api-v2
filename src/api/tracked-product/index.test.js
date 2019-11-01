@@ -20,12 +20,12 @@ beforeEach(async () => {
 test('POST /tracked-products 201 (user)', async () => {
   const { status, body } = await request(app())
     .post(`${apiRoot}`)
-    .send({ access_token: userSession, title: 'test', link: 'test', imageUrl: 'test', price: 'test', store: 'test', desiredPrice: 'test', notify: 'test' })
+    .send({ access_token: userSession, title: 'test', link: 'test', image: 'test', price: 'test', store: 'test', desiredPrice: 'test', notify: 'test' })
   expect(status).toBe(201)
   expect(typeof body).toEqual('object')
   expect(body.title).toEqual('test')
   expect(body.link).toEqual('test')
-  expect(body.imageUrl).toEqual('test')
+  expect(body.image).toEqual('test')
   expect(body.price).toEqual('test')
   expect(body.store).toEqual('test')
   expect(body.desiredPrice).toEqual('test')
@@ -81,13 +81,13 @@ test('GET /tracked-products/:id 404 (user)', async () => {
 test('PUT /tracked-products/:id 200 (user)', async () => {
   const { status, body } = await request(app())
     .put(`${apiRoot}/${trackedProduct.id}`)
-    .send({ access_token: userSession, title: 'test', link: 'test', imageUrl: 'test', price: 'test', store: 'test', desiredPrice: 'test', notify: 'test' })
+    .send({ access_token: userSession, title: 'test', link: 'test', image: 'test', price: 'test', store: 'test', desiredPrice: 'test', notify: 'test' })
   expect(status).toBe(200)
   expect(typeof body).toEqual('object')
   expect(body.id).toEqual(trackedProduct.id)
   expect(body.title).toEqual('test')
   expect(body.link).toEqual('test')
-  expect(body.imageUrl).toEqual('test')
+  expect(body.image).toEqual('test')
   expect(body.price).toEqual('test')
   expect(body.store).toEqual('test')
   expect(body.desiredPrice).toEqual('test')
@@ -98,7 +98,7 @@ test('PUT /tracked-products/:id 200 (user)', async () => {
 test('PUT /tracked-products/:id 401 (user) - another user', async () => {
   const { status } = await request(app())
     .put(`${apiRoot}/${trackedProduct.id}`)
-    .send({ access_token: anotherSession, title: 'test', link: 'test', imageUrl: 'test', price: 'test', store: 'test', desiredPrice: 'test', notify: 'test' })
+    .send({ access_token: anotherSession, title: 'test', link: 'test', image: 'test', price: 'test', store: 'test', desiredPrice: 'test', notify: 'test' })
   expect(status).toBe(401)
 })
 
@@ -111,7 +111,7 @@ test('PUT /tracked-products/:id 401', async () => {
 test('PUT /tracked-products/:id 404 (user)', async () => {
   const { status } = await request(app())
     .put(apiRoot + '/123456789098765432123456')
-    .send({ access_token: anotherSession, title: 'test', link: 'test', imageUrl: 'test', price: 'test', store: 'test', desiredPrice: 'test', notify: 'test' })
+    .send({ access_token: anotherSession, title: 'test', link: 'test', image: 'test', price: 'test', store: 'test', desiredPrice: 'test', notify: 'test' })
   expect(status).toBe(404)
 })
 

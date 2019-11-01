@@ -6,7 +6,7 @@ beforeEach(async () => {
   product = await Product.create({
     title: 'test',
     link: 'test',
-    imageUrl: 'test',
+    image: 'test',
     price: 100,
     store: 'DD Tech'
   })
@@ -19,7 +19,7 @@ describe('view', () => {
     expect(view.id).toBe(product.id)
     expect(view.title).toBe(product.title)
     expect(view.link).toBe(product.link)
-    expect(view.imageUrl).toBe(product.imageUrl)
+    expect(view.image).toBe(product.image)
     expect(view.price).toBe(product.price)
     expect(view.store).toBe(product.store)
     expect(view.createdAt).toBeTruthy()
@@ -32,7 +32,7 @@ describe('view', () => {
     expect(view.id).toBe(product.id)
     expect(view.title).toBe(product.title)
     expect(view.link).toBe(product.link)
-    expect(view.imageUrl).toBe(product.imageUrl)
+    expect(view.image).toBe(product.image)
     expect(view.price).toBe(product.price)
     expect(view.store).toBe(product.store)
     expect(view.createdAt).toBeTruthy()
