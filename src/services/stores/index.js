@@ -4,6 +4,8 @@ import scrapCoppelProduct from './coppel'
 import scrapCostcoProduct from './costco'
 import scrapLiverpoolProduct from './liverpool'
 import scrapSearsProduct from './sears'
+import scrapDDTechProduct from './ddtech'
+import scrapCyberpuertaProduct from './cyberpuerta'
 
 export default function scrapProductFromStore (store, html) {
   if (store === 'amazon') {
@@ -26,6 +28,14 @@ export default function scrapProductFromStore (store, html) {
 
   if (store === 'sears') {
     return scrapSearsProduct(html)
+  }
+
+  if (store === 'ddtech') {
+    return scrapDDTechProduct(html)
+  }
+
+  if (store === 'cyberpuerta') {
+    return scrapCyberpuertaProduct(html)
   }
   throw new Error('Store not found')
 }

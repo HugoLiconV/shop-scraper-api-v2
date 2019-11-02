@@ -14,9 +14,9 @@ const { desiredPrice, initialPrice, wasBought, notify } = schema.tree;
  * @apiName CreateTrackedProduct
  * @apiGroup TrackedProduct
  * @apiPermission user
- * @apiParam {String} access_token user access token.
- * @apiParam {Object} product Product to track.
- * @apiParam {Number} desiredPrice Tracked product's desiredPrice.
+ * @apiParam access_token {String} user access token.
+ * @apiParam product {Object} Product to track.
+ * @apiParam desiredPrice {Number}  Tracked product's desiredPrice.
  * @apiParam {Boolean} notify=true Should notify user when the price drops.
  * @apiSuccess {Object} trackedProduct Tracked product's data.
  * @apiError {Object} 400 Some parameters may contain invalid values.

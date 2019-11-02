@@ -9,5 +9,5 @@ export default function scrapCostcoProduct (html) {
   const image = scraper.scrapImage(html, imageSelector, imageAttribute)
   const currentPrice = scraper.currencyStringToNumber(scraper.scrapText(html, priceSelector))
   const name = scraper.scrapText(html, productNameSelector)
-  return { image: `https://www.costco.com.mx/${image}`, name, currentPrice };
+  return { image: `https://www.costco.com.mx${image}`, name, currentPrice };
 }

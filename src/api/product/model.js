@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
-const stores = ['costco', 'sears', 'amazon', 'bestbuy', 'liverpool', 'coppel']
+const stores = ['costco', 'sears', 'amazon', 'bestbuy', 'liverpool', 'coppel', 'ddtech', 'bestbuy']
 
 const productSchema = new Schema(
   {

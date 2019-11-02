@@ -4,12 +4,12 @@ const trackedProductSchema = new Schema(
   {
     user: {
       type: Schema.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true
     },
     product: {
       type: Schema.ObjectId,
-      ref: "Product",
+      ref: 'Product',
       required: true
     },
     initialPrice: {
@@ -38,11 +38,11 @@ const trackedProductSchema = new Schema(
     toJSON: {
       virtuals: true,
       transform: (obj, ret) => {
-        delete ret._id;
+        delete ret._id
       }
     }
   }
-);
+)
 
 trackedProductSchema.methods = {
   view (full) {

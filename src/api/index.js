@@ -3,7 +3,6 @@ import user from './user'
 import auth from './auth'
 import passwordReset from './password-reset'
 import trackedProduct from './tracked-product'
-import search from './search'
 import log from './log'
 import cron from './cron'
 import product from './product'
@@ -37,7 +36,6 @@ router.use('/users', user)
 router.use('/auth', auth)
 router.use('/password-resets', passwordReset)
 router.use('/tracked-products', trackedProduct)
-router.use('/search', search)
 router.use('/logs', log)
 router.use('/cron', cron)
 router.use('/products', product)

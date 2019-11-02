@@ -1,5 +1,7 @@
 import { success, notFound } from '../../services/response/'
 import { Product } from '.'
+import { getHTML } from '../../services/scraper'
+import scrapProductFromStore from '../../services/stores'
 
 export const create = ({ bodymen: { body } }, res, next) =>
   Product.create(body)
@@ -20,18 +22,18 @@ export const show = ({ params }, res, next) =>
     .then(success(res))
     .catch(next)
 
+export const search = async ({ query: {store, link} }, res, next) => {
+  const html = await getHTML(link)
+  const product = scrapProductFromStore(store, html)
+  return res.status(200).json({
+    product
+  })
+}
+
 export const update = (newProduct, id) =>
   Product.findById(id)
     .then(product => (product ? Object.assign(product, newProduct).save() : null))
     .then(product => (product ? product.view(true) : null))
-
-// export const update = ({ bodymen: { body }, params }, res, next) =>
-//   Product.findById(params.id)
-//     .then(notFound(res))
-//     .then((product) => product ? Object.assign(product, body).save() : null)
-//     .then((product) => product ? product.view(true) : null)
-//     .then(success(res))
-//     .catch(next)
 
 export const destroy = ({ params }, res, next) =>
   Product.findById(params.id)
