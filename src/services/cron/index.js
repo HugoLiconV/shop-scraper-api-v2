@@ -20,7 +20,9 @@ export async function scrapProducts () {
     .populate('user')
     .populate('product')
   trackedProducts.forEach(async ({ id: trackedProductId, product, user, desiredPrice, notify }) => {
-    const html = await getHTML(product.link)
+    const html = await getHTML(product.link).catch(e => {
+      console.log('[cron]: Error getting html page')
+    })
     const store = product.store
     const currentPrice = scrapProductFromStore(store, html).currentPrice
     let shouldNotify = notify
