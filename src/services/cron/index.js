@@ -1,12 +1,12 @@
 import cron from 'node-cron'
 import chalk from 'chalk'
 import { TrackedProduct } from '../../api/tracked-product'
-import { getHTML, scrapPriceCyberPuerta, scrapPriceDDTech, scrapPriceAmazon } from '../scraper'
+import { getHTML } from '../scraper'
 import { sendMail } from '../sendgrid'
 import { create as createLog } from '../../api/log/controller'
 import { update as updateProduct } from '../../api/product/controller'
 import scrapProductFromStore from '../stores'
-import { update, localUpdate } from '../../api/tracked-product/controller'
+import { localUpdate } from '../../api/tracked-product/controller'
 import getMailContent from '../sendgrid/template'
 
 cron.schedule('0 * * * *', () => {
@@ -21,10 +21,8 @@ export async function scrapProducts () {
     .populate('product')
   trackedProducts.forEach(async ({ id: trackedProductId, product, user, desiredPrice, notify }) => {
     const html = await getHTML(product.link)
-    const oldPrice = product.price
     const store = product.store
     const currentPrice = scrapProductFromStore(store, html).currentPrice
-    console.log(`Old price: ${oldPrice}, new one: ${currentPrice}`)
     let shouldNotify = notify
     const currentPriceIsLessThanDesired = currentPrice * 100 < desiredPrice * 100
     if (currentPriceIsLessThanDesired && shouldNotify) {

@@ -26,7 +26,11 @@ export const search = async ({ query: {store, link} }, res, next) => {
   const html = await getHTML(link)
   const product = scrapProductFromStore(store, html)
   return res.status(200).json({
-    product
+    product: {
+      ...product,
+      link,
+      store
+    }
   })
 }
 

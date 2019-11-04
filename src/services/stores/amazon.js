@@ -7,9 +7,9 @@ const imageAttribute = 'data-old-hires'
 
 export default function scrapAmazonProduct (html) {
   const image = scraper.scrapImage(html, imageSelector, imageAttribute)
-  const currentPrice = scraper.currencyStringToNumber(
+  const price = scraper.currencyStringToNumber(
     scraper.scrapText(html, priceSelector)
   )
-  const name = scraper.scrapText(html, productNameSelector)
-  return { image, name, currentPrice }
+  const title = scraper.scrapText(html, productNameSelector)
+  return { image, title, price }
 }

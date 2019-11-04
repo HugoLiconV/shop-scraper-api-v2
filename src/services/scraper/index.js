@@ -12,6 +12,7 @@ export const currencyStringToNumber = string =>
 export function scrapText (html, selector) {
   const $ = cheerio.load(html)
   const price = $(selector)
+    .first()
     .text()
     .trim()
   return price
