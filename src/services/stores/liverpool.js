@@ -7,8 +7,8 @@ const productNameSelector = '.a-product__information--title'
 export default function scrapLiverpoolProduct (html) {
   const image = scraper.scrapImage(html, imageSelector)
   const price = scraper.currencyStringToNumber(
-    scraper.scrapText(html, priceSelector) / 100
+    scraper.scrapText(html, priceSelector)
   )
   const title = scraper.scrapText(html, productNameSelector)
-  return { image, title, price }
+  return { image, title, price: price / 100 }
 }
