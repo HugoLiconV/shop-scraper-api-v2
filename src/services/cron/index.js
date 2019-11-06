@@ -24,7 +24,7 @@ export async function scrapProducts () {
       console.log('[cron]: Error getting html page')
     })
     const store = product.store
-    const currentPrice = scrapProductFromStore(store, html).currentPrice
+    const currentPrice = scrapProductFromStore(store, html).price
     let shouldNotify = notify
     const currentPriceIsLessThanDesired = currentPrice * 100 < desiredPrice * 100
     if (currentPriceIsLessThanDesired && shouldNotify) {

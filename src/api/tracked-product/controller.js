@@ -12,7 +12,7 @@ export const create = ({ user, bodymen: { body } }, res, next) => {
     .then(product =>
       TrackedProduct.findOneAndUpdate(
         { product: product.id, user: user.id },
-        { product, desiredPrice, user, initialPrice, notify: true, wasBought: false },
+        { product, desiredPrice, user, initialPrice, notify: true, wasPurchased: false },
         options
       )
         .populate('product')

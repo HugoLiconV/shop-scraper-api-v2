@@ -16,12 +16,12 @@ const trackedProductSchema = new Schema(
       type: Number,
       required: true
     },
-    wasBought: {
+    wasPurchased: {
       type: Boolean,
       required: true,
-      default: 'false'
+      default: false
     },
-    boughtAt: {
+    purchasedAt: {
       type: Number
     },
     desiredPrice: {
@@ -30,7 +30,7 @@ const trackedProductSchema = new Schema(
     },
     notify: {
       type: Boolean,
-      default: 'true'
+      default: true
     }
   },
   {
@@ -55,8 +55,8 @@ trackedProductSchema.methods = {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       initialPrice: this.initialPrice,
-      wasBought: this.wasBought,
-      boughtAt: this.boughtAt
+      wasPurchased: this.wasPurchased,
+      purchasedAt: this.purchasedAt
     }
 
     return full

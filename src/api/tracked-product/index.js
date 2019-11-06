@@ -7,7 +7,7 @@ import { schema } from './model'
 export TrackedProduct, { schema } from './model'
 
 const router = new Router()
-const { desiredPrice, initialPrice, wasBought, notify } = schema.tree;
+const { desiredPrice, initialPrice, wasPurchased, notify, purchasedAt } = schema.tree
 
 /**
  * @api {post} /tracked-products Create tracked product
@@ -36,7 +36,7 @@ router.post('/', token({ required: true }), body({ product: [Object], desiredPri
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 user access only.
  */
-router.get('/', token({ required: true }), query(), index)
+router.get('/', token({ required: true }), query({ wasPurchased }), index)
 
 /**
  * @api {get} /tracked-products/:id Retrieve tracked product
@@ -63,7 +63,7 @@ router.get('/:id', token({ required: true }), show)
  * @apiError 404 Tracked product not found.
  * @apiError 401 user access only.
  */
-router.put('/:id', token({ required: true }), body({ desiredPrice, initialPrice, wasBought, notify }), update)
+router.put('/:id', token({ required: true }), body({ desiredPrice, initialPrice, wasPurchased, notify, purchasedAt }), update)
 
 /**
  * @api {delete} /tracked-products/:id Delete tracked product
