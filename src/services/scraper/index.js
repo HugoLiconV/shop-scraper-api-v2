@@ -1,12 +1,25 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
 
+const listOfUserAgens = [
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A',
+  'Opera/12.02 (Android 4.1; Linux; Opera Mobi/ADR-1111101157; U; en-US) Presto/2.9.201 Version/12.02',
+  'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0',
+  'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)']
+
+function getRandomInt (min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 export async function getHTML (url) {
+  const randomInt = getRandomInt(0, listOfUserAgens.length)
   const response = await axios.get(url, {
     timeout: 5000,
     headers: {
-      'User-Agent':
-          'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36'
+      'User-Agent': listOfUserAgens[randomInt]
     }
   }).catch(e => {
     console.log('Error getting html', e)
