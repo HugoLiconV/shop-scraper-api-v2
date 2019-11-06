@@ -5,14 +5,17 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import { errorHandler as queryErrorHandler } from 'querymen'
 import { errorHandler as bodyErrorHandler } from 'bodymen'
-import { env } from '../../config'
+import { env, origin } from '../../config'
 
 export default (apiRoot, routes) => {
   const app = express()
 
+  const corsOptions = {
+    origin
+  }
   /* istanbul ignore next */
   if (env === 'production' || env === 'development') {
-    app.use(cors())
+    app.use(cors(corsOptions))
     app.use(compression())
     app.use(morgan('dev'))
   }
