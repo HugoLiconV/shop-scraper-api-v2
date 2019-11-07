@@ -4,8 +4,12 @@ import mongoose from './services/mongoose'
 import express from './services/express'
 import api from './api'
 import './services/cron'
+const Sentry = require('@sentry/node')
 
 const app = express(apiRoot, api)
+
+app.use(Sentry.Handlers.errorHandler())
+
 const server = http.createServer(app)
 
 mongoose.connect(mongo.uri)

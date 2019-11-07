@@ -5,12 +5,15 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import { errorHandler as queryErrorHandler } from 'querymen'
 import { errorHandler as bodyErrorHandler } from 'bodymen'
-import { env, origin } from '../../config'
+import { env, origin, sentryDsn } from '../../config'
+const Sentry = require('@sentry/node')
 
 export default (apiRoot, routes) => {
   const app = express()
+  Sentry.init({ dsn: sentryDsn, environment: env })
 
   app.use(require('express-status-monitor')())
+  app.use(Sentry.Handlers.requestHandler())
 
   const corsOptions = {
     origin: env === 'production' ? origin : 'http://localhost:3000'

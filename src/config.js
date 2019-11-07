@@ -31,6 +31,7 @@ const config = {
     masterKey: requireProcessEnv('MASTER_KEY'),
     jwtSecret: requireProcessEnv('JWT_SECRET'),
     origin: requireProcessEnv('ORIGIN'),
+    sentryDsn: requireProcessEnv('SENTRY_DSN'),
     mongo: {
       options: {
         db: {
