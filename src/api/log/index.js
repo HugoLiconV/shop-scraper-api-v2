@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { middleware as query, Schema } from 'querymen'
 import { index } from './controller'
+import { token } from '../../services/passport'
 export Log, { schema } from './model'
 
 const router = new Router()
@@ -23,6 +24,6 @@ const schema = new Schema({
  * @apiSuccess {Object[]} rows List of logs.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  */
-router.get('/', query(schema), index)
+router.get('/', token({ required: true }), query(schema), index)
 
 export default router

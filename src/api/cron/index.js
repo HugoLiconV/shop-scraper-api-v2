@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { runCron } from './controller'
+import { token } from '../../services/passport'
 const router = new Router()
 
 /**
@@ -8,6 +9,6 @@ const router = new Router()
  * @apiGroup Cron
  * @apiSuccess {Object[]} message Success message.
  */
-router.get('/', runCron)
-// TODO: Add permission to run cron (only admins)
+router.get('/', token({ required: true, roles: ['admin'] }), runCron)
+
 export default router
