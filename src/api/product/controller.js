@@ -2,6 +2,7 @@ import { success, notFound } from '../../services/response/'
 import { Product } from '.'
 import { getHTML } from '../../services/scraper'
 import scrapProductFromStore from '../../services/stores'
+const Sentry = require('@sentry/node')
 
 export const create = ({ bodymen: { body } }, res, next) =>
   Product.create(body)
@@ -23,9 +24,14 @@ export const show = ({ params }, res, next) =>
     .catch(next)
 
 export const search = async ({ query: {store, link} }, res, next) => {
-  const html = await getHTML(link).catch(e => {
-    console.log('[search]: error getting html page', e.message)
-    res.status(400).json({message: 'Error al obtener el producto. Revisa que el link sea correcto.'}).end()
+  const html = await getHTML(link).catch(error => {
+    console.log('[search]: error getting html page', error.message)
+    Sentry.captureEvent({
+      error,
+      store,
+      link
+    })
+    res.status(400).json({message: error.message || 'Error al obtener el producto. Revisa que el link sea correcto.'}).end()
   })
   const product = scrapProductFromStore(store, html)
   return res.status(200).json({

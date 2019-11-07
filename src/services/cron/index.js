@@ -8,6 +8,7 @@ import { update as updateProduct } from '../../api/product/controller'
 import scrapProductFromStore from '../stores'
 import { localUpdate } from '../../api/tracked-product/controller'
 import getMailContent from '../sendgrid/template'
+const Sentry = require('@sentry/node')
 
 cron.schedule('0 * * * *', () => {
   scrapProducts()
@@ -20,11 +21,28 @@ export async function scrapProducts () {
     .populate('user')
     .populate('product')
   trackedProducts.forEach(async ({ id: trackedProductId, product, user, desiredPrice, notify }) => {
+    let error
     const html = await getHTML(product.link).catch(e => {
       console.log('[cron]: Error getting html page')
+      error = e
     })
+    if (error) { // if we get an error return
+      Sentry.captureEvent({
+        error,
+        product
+      })
+      return
+    }
     const store = product.store
     const currentPrice = scrapProductFromStore(store, html).price
+    console.log(`[cron]: ${product.title}`)
+    console.log(`
+      \t[current price]: ${currentPrice}
+      \t[price]: ${product.price}
+      \t[store]: ${product.store}
+      \t[link]: ${product.link}
+      \n
+    `)
     let shouldNotify = notify
     const currentPriceIsLessThanDesired = currentPrice * 100 < desiredPrice * 100
     if (currentPriceIsLessThanDesired && shouldNotify) {
