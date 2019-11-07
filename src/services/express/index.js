@@ -10,8 +10,10 @@ import { env, origin } from '../../config'
 export default (apiRoot, routes) => {
   const app = express()
 
+  app.use(require('express-status-monitor')())
+
   const corsOptions = {
-    origin
+    origin: env === 'production' ? origin : 'http://localhost:3000'
   }
   /* istanbul ignore next */
   if (env === 'production' || env === 'development') {
