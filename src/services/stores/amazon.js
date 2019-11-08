@@ -8,19 +8,15 @@ const imageAttribute = 'data-old-hires'
 export default function scrapAmazonProduct (html) {
   const image = scraper.scrapImage(html, imageSelector, imageAttribute)
   const title = scraper.scrapText(html, productNameSelector)
-  const price = scraper.currencyStringToNumber(
-    scraper.scrapText(html, priceSelector)
-  )
+  const price = scraper.scrapText(html, priceSelector)
   if (!price || price === 0) {
     // sometimes the selector change if there is a discount in the product
-    const newPrice = scraper.currencyStringToNumber(
-      scraper.scrapText(html, '#priceblock_dealprice')
-    )
+    const newPrice = scraper.scrapText(html, '#priceblock_dealprice')
     return {
       image,
       title,
-      price: newPrice
+      price: scraper.currencyStringToNumber(newPrice)
     }
   }
-  return { image, title, price }
+  return { image, title, price: scraper.currencyStringToNumber(price) }
 }

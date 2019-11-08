@@ -2,6 +2,7 @@ import { success, notFound } from '../../services/response/'
 import { Product } from '.'
 import { getHTML } from '../../services/scraper'
 import scrapProductFromStore from '../../services/stores'
+import verifyProductData from '../../services/stores/error'
 const Sentry = require('@sentry/node')
 
 export const create = ({ bodymen: { body } }, res, next) =>
@@ -34,6 +35,16 @@ export const search = async ({ query: {store, link} }, res, next) => {
     res.status(400).json({message: error.message || 'Error al obtener el producto. Revisa que el link sea correcto.'}).end()
   })
   const product = scrapProductFromStore(store, html)
+  try {
+    verifyProductData(product)
+  } catch (error) {
+    Sentry.captureEvent({
+      error,
+      store,
+      link
+    })
+    res.status(500).json({message: error || 'Error al obtener la información del producto. Vuelve a intentarlo'}).end()
+  }
   return res.status(200).json({
     product: {
       ...product,
