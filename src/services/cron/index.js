@@ -29,8 +29,11 @@ export async function scrapProducts () {
     })
     if (error) { // if we get an error return
       Sentry.captureEvent({
-        error,
-        product
+        message: error,
+        extra: {
+          error,
+          product
+        }
       })
       return
     }
@@ -63,8 +66,10 @@ export async function scrapProducts () {
           console.log(`Error sending email ${error}`)
           Sentry.captureEvent({
             message: 'Error sending email',
-            error,
-            product
+            extra: {
+              error,
+              product
+            }
           })
           shouldNotify = true
         })
@@ -85,9 +90,11 @@ export async function scrapProducts () {
     } catch (error) {
       Sentry.captureEvent({
         message: 'Error getting product info',
-        error,
-        product,
-        data: productData
+        extra: {
+          error,
+          product,
+          data: productData
+        }
       })
     }
   })

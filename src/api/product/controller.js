@@ -28,9 +28,12 @@ export const search = async ({ query: {store, link} }, res, next) => {
   const html = await getHTML(link).catch(error => {
     console.log('[search]: error getting html page', error.message)
     Sentry.captureEvent({
-      error,
-      store,
-      link
+      message: error.message,
+      extra: {
+        error,
+        store,
+        link
+      }
     })
     res.status(400).json({message: error.message || 'Error al obtener el producto. Revisa que el link sea correcto.'}).end()
   })
@@ -39,9 +42,12 @@ export const search = async ({ query: {store, link} }, res, next) => {
     verifyProductData(product)
   } catch (error) {
     Sentry.captureEvent({
-      error,
-      store,
-      link
+      message: error,
+      extra: {
+        error,
+        store,
+        link
+      }
     })
     res.status(500).json({message: error || 'Error al obtener la información del producto. Vuelve a intentarlo'}).end()
   }

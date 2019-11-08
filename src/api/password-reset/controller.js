@@ -5,7 +5,7 @@ import { User } from '../user'
 import { resetPasswordTemplate } from '../../services/sendgrid/template'
 
 export const create = ({ bodymen: { body: { email, link } } }, res, next) =>
-   User.findOne({ email })
+  User.findOne({ email })
     .then(notFound(res))
     .then((user) => user ? PasswordReset.create({ user }) : null)
     .then((reset) => {
@@ -13,7 +13,7 @@ export const create = ({ bodymen: { body: { email, link } } }, res, next) =>
       const { user, token } = reset
       link = `${link.replace(/\/$/, '')}/${token}`
       const content = resetPasswordTemplate(link, user.name)
-      return sendMail({ toEmail: email, subject: 'shop-scraper - Password Reset', content })
+      return sendMail({ toEmail: email, subject: 'Pricer - Restablecer contraseña', content })
     })
     .then(([response]) => response ? res.status(response.statusCode).end() : null)
     .catch(next)
