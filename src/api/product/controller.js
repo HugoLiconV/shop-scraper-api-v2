@@ -49,7 +49,7 @@ export const search = async ({ query: {store, link} }, res, next) => {
         link
       }
     })
-    res.status(500).json({message: error || 'Error al obtener la información del producto. Vuelve a intentarlo'}).end()
+    res.status(500).json({message: 'Error al obtener la información del producto. Volver a intentarlo puede solucionarlo. Si no lo hace puedes reportar el problema'}).end()
   }
   return res.status(200).json({
     product: {
