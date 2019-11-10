@@ -15,7 +15,6 @@ function getRandomInt (min, max) {
 export async function getHTML (url) {
   const randomInt = getRandomInt(0, listOfUserAgens.length - 1)
   const userAgent = listOfUserAgens[randomInt]
-  console.log("TCL: getHTML -> userAgent", userAgent)
   const response = await axios.get(url, {
     timeout: 5000,
     headers: {

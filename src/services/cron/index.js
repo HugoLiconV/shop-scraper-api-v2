@@ -16,11 +16,11 @@ cron.schedule('0 * * * *', () => {
 })
 
 export async function scrapProducts () {
-  console.log(chalk.green('\nrunning a task every hour ⏲️'))
-
-  const trackedProducts = await TrackedProduct.find()
+  const trackedProducts = await TrackedProduct.find({wasPurchased: false})
     .populate('user')
     .populate('product')
+  console.log(chalk.green('\nrunning a task every hour ⏲️'))
+  console.log(chalk.blue('Total products to scrap: ', trackedProducts.length))
   trackedProducts.forEach(async ({ id: trackedProductId, product, user, desiredPrice, notify }) => {
     let error
     const html = await getHTML(product.link).catch(e => {
