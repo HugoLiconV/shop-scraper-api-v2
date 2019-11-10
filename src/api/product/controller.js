@@ -3,6 +3,7 @@ import { Product } from '.'
 import { getHTML } from '../../services/scraper'
 import scrapProductFromStore from '../../services/stores'
 import verifyProductData from '../../services/stores/error'
+import { getAffiliatedLink } from '../../services/stores/amazon'
 const Sentry = require('@sentry/node')
 
 export const create = ({ bodymen: { body } }, res, next) =>
@@ -25,7 +26,8 @@ export const show = ({ params }, res, next) =>
     .catch(next)
 
 export const search = async ({ query: {store, link} }, res, next) => {
-  const html = await getHTML(link).catch(error => {
+  const affiliatedLink = getAffiliatedLink(link)
+  const html = await getHTML(affiliatedLink).catch(error => {
     console.log('[search]: error getting html page', error.message)
     Sentry.captureEvent({
       message: error.message,
@@ -35,7 +37,7 @@ export const search = async ({ query: {store, link} }, res, next) => {
         link
       }
     })
-    res.status(400).json({message: error.message || 'Error al obtener el producto. Revisa que el link sea correcto.'}).end()
+    return res.status(400).json({message: error.message || 'Error al obtener el producto. Revisa que el link sea correcto.'}).end()
   })
   const product = scrapProductFromStore(store, html)
   try {
@@ -49,12 +51,12 @@ export const search = async ({ query: {store, link} }, res, next) => {
         link
       }
     })
-    res.status(500).json({message: 'Error al obtener la información del producto. Volver a intentarlo puede solucionarlo. Si no lo hace puedes reportar el problema'}).end()
+    return res.status(500).json({message: 'Error al obtener la información del producto. Volver a intentarlo puede solucionarlo. Si no lo hace puedes reportar el problema'}).end()
   }
   return res.status(200).json({
     product: {
       ...product,
-      link,
+      link: affiliatedLink,
       store
     }
   })
