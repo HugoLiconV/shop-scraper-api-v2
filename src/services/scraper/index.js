@@ -1,5 +1,6 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
+import chalk from 'chalk'
 
 const listOfUserAgens = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
@@ -14,14 +15,18 @@ function getRandomInt (min, max) {
 }
 
 export async function getHTML (url) {
+  const headers = {}
   const randomInt = getRandomInt(0, listOfUserAgens.length - 1)
   const userAgent = listOfUserAgens[randomInt]
-  // const headers = {}
+  if (!url.includes('costco')) {
+    headers['User-Agent'] = userAgent
+  }
   const response = await axios.get(url, {
-    timeout: 8000
+    timeout: 10000,
+    headers
   }).catch(e => {
-    console.log('Error getting html', e.message)
-
+    console.log(chalk.red(`[scraper]: ${e.message}`, url))
+    console.log(chalk.red(`[scraper]: ${userAgent}`))
     // eslint-disable-next-line prefer-promise-reject-errors
     return Promise.reject({
       message: e.message,

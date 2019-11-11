@@ -9,6 +9,7 @@ import scrapProductFromStore from '../stores'
 import { localUpdate } from '../../api/tracked-product/controller'
 import getMailContent from '../sendgrid/template'
 import verifyProductData from '../stores/error'
+import wait from 'waait'
 const Sentry = require('@sentry/node')
 
 cron.schedule('0 * * * *', () => {
@@ -16,40 +17,23 @@ cron.schedule('0 * * * *', () => {
 })
 
 export async function scrapProducts () {
+  const totalProducts = await TrackedProduct.find({ wasPurchased: false }).count()
   const trackedProducts = await TrackedProduct.find({wasPurchased: false})
+    .limit(totalProducts)
     .populate('user')
     .populate('product')
+
   console.log(chalk.green('\nrunning a task every hour ⏲️'))
-  console.log(chalk.blue('Total products to scrap: ', trackedProducts.length))
-  trackedProducts.forEach(async ({ id: trackedProductId, product, user, desiredPrice, notify }) => {
-    let error
-    const html = await getHTML(product.link).catch(e => {
-      console.log('[cron]: Error getting html page')
-      error = e
-    })
-    if (error) { // if we get an error return
-      Sentry.captureEvent({
-        message: error,
-        extra: {
-          error,
-          product
-        }
-      })
-      return
-    }
-    const store = product.store
-    const productData = scrapProductFromStore(store, html)
+  console.log(chalk.blue('Total products to scrap: ', totalProducts))
+  for (let index = 0; index < trackedProducts.length; index++) {
+    await wait(500)
+    const { id: trackedProductId, product, user, desiredPrice, notify } = trackedProducts[index]
     try {
+      const html = await getHTML(product.link)
+      const productData = scrapProductFromStore(product.store, html)
       verifyProductData(productData)
       const currentPrice = productData.price
-      console.log(`[cron]: ${product.title}`)
-      console.log(`
-      \t[current price]: ${currentPrice}
-      \t[price]: ${product.price}
-      \t[store]: ${product.store}
-      \t[link]: ${product.link}
-      \n
-      `)
+      console.log(chalk.cyan(`[cron]: ${index}.- ${product.title}`))
       let shouldNotify = notify
       const currentPriceIsLessThanDesired = currentPrice * 100 < desiredPrice * 100
       if (currentPriceIsLessThanDesired && shouldNotify) {
@@ -78,24 +62,22 @@ export async function scrapProducts () {
           shouldNotify = true
         }
       }
-
-      /* Update product, trackedProduct and create log */
       await Promise.all([
         updateProduct({ ...product, price: currentPrice }, product.id),
         createLog({ product: product.id, price: currentPrice }),
-        localUpdate({notify: shouldNotify}, trackedProductId)
+        localUpdate({ notify: shouldNotify }, trackedProductId)
       ]).catch(error => {
         console.log('error', error)
       })
     } catch (error) {
+      console.log(chalk.red(`[${product.title}]: ${error}`))
       Sentry.captureEvent({
-        message: 'Error getting product info',
+        message: error,
         extra: {
           error,
-          product,
-          data: productData
+          product
         }
       })
     }
-  })
+  }
 }
