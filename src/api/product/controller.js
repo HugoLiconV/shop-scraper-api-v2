@@ -27,6 +27,7 @@ export const show = ({ params }, res, next) =>
 
 export const search = async ({ query: {store, link} }, res, next) => {
   const affiliatedLink = getAffiliatedLink(link)
+  console.log("TCL: search -> affiliatedLink", affiliatedLink)
   const html = await getHTML(affiliatedLink).catch(error => {
     console.log('[search]: error getting html page', error.message)
     Sentry.captureEvent({

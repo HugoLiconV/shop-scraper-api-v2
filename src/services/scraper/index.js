@@ -4,7 +4,8 @@ import cheerio from 'cheerio'
 const listOfUserAgens = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A',
-  'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0']
+  'Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0'
+]
 
 function getRandomInt (min, max) {
   min = Math.ceil(min)
@@ -15,11 +16,9 @@ function getRandomInt (min, max) {
 export async function getHTML (url) {
   const randomInt = getRandomInt(0, listOfUserAgens.length - 1)
   const userAgent = listOfUserAgens[randomInt]
+  // const headers = {}
   const response = await axios.get(url, {
-    timeout: 8000,
-    headers: {
-      'User-Agent': userAgent
-    }
+    timeout: 8000
   }).catch(e => {
     console.log('Error getting html', e.message)
 
