@@ -48,13 +48,13 @@ export async function scrapProducts () {
           content
         }).catch(error => {
           console.log(`Error sending email ${error}`)
-          Sentry.captureEvent({
-            message: 'Error sending email',
-            extra: {
-              error,
-              product
-            }
-          })
+//           Sentry.captureEvent({
+//             message: 'Error sending email',
+//             extra: {
+//               error,
+//               product
+//             }
+//           })
           shouldNotify = true
         })
       } else {
@@ -71,13 +71,13 @@ export async function scrapProducts () {
       })
     } catch (error) {
       console.log(chalk.red(`[${product.title}]: ${error}`))
-      Sentry.captureEvent({
-        message: error,
-        extra: {
-          error,
-          product
-        }
-      })
+//       Sentry.captureEvent({
+//         message: error,
+//         extra: {
+//           error,
+//           product
+//         }
+//       })
     }
   }
 }
