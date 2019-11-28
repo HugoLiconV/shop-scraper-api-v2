@@ -8,7 +8,7 @@ const imageAttribute = 'data-old-hires'
 export function getAffiliatedLink (link) {
   const regex = /^(https?:\/\/)?www.amazon.com.mx\/(\S+-?\/)?\w{2}\/(?<id>[A-Z0-9]+)/
   const affiliatedParams =
-    '/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&linkCode=as2&tag=pricer02-20'
+    '/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&linkCode=as2&tag=pricer0b-20'
   const amazonLink = 'https://www.amazon.com.mx/gp/product/'
   const result = regex.exec(link)
   if (result && result.groups && result.groups.id) {
