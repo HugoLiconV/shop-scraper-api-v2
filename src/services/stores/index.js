@@ -6,6 +6,7 @@ import scrapLiverpoolProduct from './liverpool'
 import scrapSearsProduct from './sears'
 import scrapDDTechProduct from './ddtech'
 import scrapCyberpuertaProduct from './cyberpuerta'
+import scrapMercadoLibreProduct from './mercado-libre'
 
 export default function scrapProductFromStore (store, html) {
   if (store === 'amazon') {
@@ -36,6 +37,9 @@ export default function scrapProductFromStore (store, html) {
 
   if (store === 'cyberpuerta') {
     return scrapCyberpuertaProduct(html)
+  }
+  if (store === 'mercadolibre') {
+    return scrapMercadoLibreProduct(html)
   }
   throw new Error('Store not found')
 }
